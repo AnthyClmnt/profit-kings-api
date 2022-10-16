@@ -13,19 +13,6 @@ class User(Base):
     first_name = Column(String)
     is_active = Column(Boolean, default=True)
 
-    items = relationship("Item", back_populates="owner")
-
-
-class Item(Base):
-    __tablename__ = "items"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
-
-    owner = relationship("User", back_populates="items")
-
 
 class BookMaker(Base):
     __tablename__ = "book_maker"
@@ -65,3 +52,5 @@ class BetDetails(Base):
     settled = Column(Boolean)
     comments = Column(String)
     money_gain = Column(Float, nullable=False)
+
+    bet_id = relationship("Bets")

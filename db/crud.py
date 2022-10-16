@@ -24,13 +24,16 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
+def get_booky_by_id(db: Session, booky_id: int):
+    return db.query(models.BookMaker).filter(models.BookMaker.id == booky_id).first()
 
 
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
-    db.add(db_item)
+def create_booky(db: Session, booky: schemas.BookMakerBase):
+    db_booky = models.BookMaker(name=booky.name,
+                                book_type=booky.book_type,
+                                website=booky.website,
+                                location=booky.location)
+    db.add(db_booky)
     db.commit()
-    db.refresh(db_item)
-    return db_item
+    db.refresh(db_booky)
+    return db_booky
